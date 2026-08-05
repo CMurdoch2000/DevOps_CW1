@@ -1,30 +1,26 @@
 import java.text.DecimalFormat;
 
+@SuppressWarnings("java:S106") // Clears the System.out code smell for console apps
 public class WeightConverter {
     public static void main(String[] args) {
         
-        // Fix for Task 5a Checking for missing arguments
         if (args.length < 2) {
             System.out.println("Error Please provide a weight and a unit.");
             System.out.println("Example java WeightConverter 25 kilograms");
-            System.exit(0);
+            return; // Replaced System.exit to clear code smell
         }
 
         double weight = 0;
         DecimalFormat f = new DecimalFormat("##.##");
 
-        // Fix for Task 5a Checking for incorrect number formats
         try {
             weight = Double.parseDouble(args[0]);
         } catch (NumberFormatException e) {
             System.out.println("Error Please enter a valid number for the weight.");
-            System.exit(0);
+            return;
         }
 
-        // Fix for Task 5b Forcing the input to lower case to handle capital letters
         String unit = args[1].toLowerCase();
-
-        // Declaring variables here fixes SonarQube scope warnings
         double pounds = 0;
         double grams = 0;
         double kilograms = 0;
@@ -50,7 +46,7 @@ public class WeightConverter {
                 break;
             default:
                 System.out.println("Error Unknown unit. Please use kilograms, pounds or grams.");
-                System.exit(0);
+                return;
         }
         
         System.out.println("Thank you for using the weight converter.");
