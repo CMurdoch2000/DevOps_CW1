@@ -11,7 +11,7 @@ public class WeightConverter {
         }
 
         double weight = 0;
-        DecimalFormat f = new DecimalFormat("##.##");
+        DecimalFormat f = new DecimalFormat("0.######");
 
         try {
             weight = Double.parseDouble(args[0]);
