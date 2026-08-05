@@ -7,86 +7,145 @@ public class WeightConverterTest {
         
         System.out.println("Starting Unit Tests...");
         
-        // Save the original standard output so we can restore it later
         PrintStream originalOut = System.out;
         
-        // TEST 1: Missing Arguments Task 5a
-        System.out.println("Running Test 1: Checking missing arguments");
+        // TEST 1 Missing Arguments Task 5a
+        System.out.println("Running Test 1 Checking missing arguments");
         try {
             String[] emptyArgs = {};
             WeightConverter.main(emptyArgs);
-            // If the code does not crash we need to check if it printed a friendly warning
         } catch (Exception e) {
-            System.out.println("Test 1 Failed: The programme crashed with an error instead of handling missing inputs gracefully.");
+            System.out.println("Test 1 Failed The programme crashed with an error instead of handling missing inputs gracefully.");
             failedTests++;
         }
 
-        // TEST 2: Wrong Format Task 5a
-        System.out.println("Running Test 2: Checking incorrect number formats");
+        // TEST 2 Wrong Format Task 5a
+        System.out.println("Running Test 2 Checking incorrect number formats");
         try {
             String[] wrongFormatArgs = {"twenty", "kilograms"};
             WeightConverter.main(wrongFormatArgs);
         } catch (Exception e) {
-            System.out.println("Test 2 Failed: The programme crashed when given text instead of numbers.");
+            System.out.println("Test 2 Failed The programme crashed when given text instead of numbers.");
             failedTests++;
         }
 
-        // TEST 3: Case Sensitivity Task 5b
-        System.out.println("Running Test 3: Checking upper case units");
+        // TEST 3 Case Sensitivity Task 5b
+        System.out.println("Running Test 3 Checking upper case units");
         try {
-            // We capture the output to see what the programme actually prints
             ByteArrayOutputStream capturedOutput = new ByteArrayOutputStream();
             System.setOut(new PrintStream(capturedOutput));
             
             String[] upperCaseArgs = {"25", "POUNDS"};
             WeightConverter.main(upperCaseArgs);
             
-            // Restore normal printing
             System.setOut(originalOut);
             String output = capturedOutput.toString();
             
             if (!output.contains("Kilograms")) {
-                System.out.println("Test 3 Failed: The programme ignored the unit because it was in all capitals.");
+                System.out.println("Test 3 Failed The programme ignored the unit because it was in all capitals.");
                 failedTests++;
             }
         } catch (Exception e) {
             System.setOut(originalOut);
-            System.out.println("Test 3 Failed: The programme crashed during the case sensitivity test.");
+            System.out.println("Test 3 Failed The programme crashed during the case sensitivity test.");
             failedTests++;
         }
 
-        // TEST 4: Conversion Accuracy Task 5c
-        System.out.println("Running Test 4: Checking Kilogram conversion maths");
+        // TEST 4 Conversion Accuracy Task 5c
+        System.out.println("Running Test 4 Checking Kilogram conversion maths");
         try {
             ByteArrayOutputStream capturedOutput = new ByteArrayOutputStream();
             System.setOut(new PrintStream(capturedOutput));
             
-            // Testing 1 Kilogram conversion
             String[] mathArgs = {"1", "kilograms"};
             WeightConverter.main(mathArgs);
             
             System.setOut(originalOut);
             String output = capturedOutput.toString();
             
-            // Checking if the exact conversion numbers from the specification appear in the output
             if (!output.contains("2.205") || !output.contains("1000")) {
-                System.out.println("Test 4 Failed: The mathematical conversion for Kilograms is inaccurate.");
+                System.out.println("Test 4 Failed The mathematical conversion for Kilograms is inaccurate.");
                 failedTests++;
             }
         } catch (Exception e) {
             System.setOut(originalOut);
-            System.out.println("Test 4 Failed: The programme crashed during the maths test.");
+            System.out.println("Test 4 Failed The programme crashed during the maths test.");
+            failedTests++;
+        }
+
+        // TEST 5 Case Sensitivity Task 5b
+        System.out.println("Running Test 5 Checking capitalised units");
+        try {
+            ByteArrayOutputStream capturedOutput = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(capturedOutput));
+            
+            String[] capitalisedArgs = {"25", "Grams"};
+            WeightConverter.main(capitalisedArgs);
+            
+            System.setOut(originalOut);
+            String output = capturedOutput.toString();
+            
+            if (!output.contains("Kilograms")) {
+                System.out.println("Test 5 Failed The programme ignored the unit because it was capitalised.");
+                failedTests++;
+            }
+        } catch (Exception e) {
+            System.setOut(originalOut);
+            System.out.println("Test 5 Failed The programme crashed during the capitalised case test.");
+            failedTests++;
+        }
+
+        // TEST 6 Conversion Accuracy Task 5c
+        System.out.println("Running Test 6 Checking Pound conversion maths");
+        try {
+            ByteArrayOutputStream capturedOutput = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(capturedOutput));
+            
+            String[] poundArgs = {"1", "pounds"};
+            WeightConverter.main(poundArgs);
+            
+            System.setOut(originalOut);
+            String output = capturedOutput.toString();
+            
+            if (!output.contains("0.454") || !output.contains("454")) {
+                System.out.println("Test 6 Failed The mathematical conversion for Pounds is inaccurate.");
+                failedTests++;
+            }
+        } catch (Exception e) {
+            System.setOut(originalOut);
+            System.out.println("Test 6 Failed The programme crashed during the Pound maths test.");
+            failedTests++;
+        }
+
+        // TEST 7 Conversion Accuracy Task 5c
+        System.out.println("Running Test 7 Checking Gram conversion maths");
+        try {
+            ByteArrayOutputStream capturedOutput = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(capturedOutput));
+            
+            String[] gramArgs = {"1", "grams"};
+            WeightConverter.main(gramArgs);
+            
+            System.setOut(originalOut);
+            String output = capturedOutput.toString();
+            
+            if (!output.contains("0.001") || !output.contains("0.002205")) {
+                System.out.println("Test 7 Failed The mathematical conversion for Grams is inaccurate.");
+                failedTests++;
+            }
+        } catch (Exception e) {
+            System.setOut(originalOut);
+            System.out.println("Test 7 Failed The programme crashed during the Gram maths test.");
             failedTests++;
         }
 
         // FINAL RESULT EVALUATION
         System.out.println("--------------------------------");
         if (failedTests > 0) {
-            System.out.println("BUILD FAILED: " + failedTests + " tests did not pass.");
-            // This command throws an error code to Jenkins forcing the build to fail and stop
+            System.out.println("BUILD FAILED " + failedTests + " tests did not pass.");
             System.exit(1); 
         } else {
-            System.out.println("BUILD SUCCESSFUL: All tests passed!");
+            System.out.println("BUILD SUCCESSFUL All tests passed!");
             System.exit(0);
         }
     }
