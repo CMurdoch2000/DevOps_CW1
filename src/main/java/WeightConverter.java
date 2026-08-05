@@ -48,7 +48,7 @@ public class WeightConverter {
                 System.out.println("Error Unknown unit. Please use kilograms, pounds or grams.");
                 return;
         }
-        
+        System.out.println("Video demonstration build.");
         System.out.println("Thank you for using the weight converter.");
     }
 }
